@@ -3,31 +3,35 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+console.log(User);
+
 exports.register = async (req, res) => {
-  const { First_name, Last_name, Username, Email, Phone_number, password, DOB } = req.body;
+  const { first_name, last_name, username, email, phone_number, dob, password } = req.body;
+
   try {
-    // Check if user already exists
-    const existingUser = await User.findOne({ where: { [Sequelize.Op.or]: [{ Username }, { Email }] } });
+    // Check if user with the same username or email already exists
+    const existingUser = await User.findOne({ where: { username: username } });
     if (existingUser) {
-      return res.status(409).json({ message: 'Username or email already exists' });
+      return res.status(409).json({ message: 'Username already exists' });
     }
 
-    // Hash password
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
+    // Create a new user in the database
     const newUser = await User.create({
-      First_name,
-      Last_name,
-      Username,
-      Email,
-      Phone_number,
+      First_name: first_name,
+      Last_name: last_name,
+      Username: username,
+      Email: email,
+      Phone_number: phone_number,
       password: hashedPassword,
-      DOB,
+      DOB: dob
     });
 
     res.status(201).json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
+    console.error('Error during registration:', error);
     res.status(500).json({ message: 'Failed to register user', error: error.message });
   }
 };

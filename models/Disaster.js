@@ -1,7 +1,6 @@
+// models/Disaster.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Request = require('./Request');
-const History = require('./History');
 
 const Disaster = sequelize.define('Disaster', {
   Disaster_ID: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -10,9 +9,7 @@ const Disaster = sequelize.define('Disaster', {
   location: { type: DataTypes.STRING },
   severity: { type: DataTypes.ENUM('low', 'medium', 'high', 'critical') },
   startDate: { type: DataTypes.DATE },
-  endDate: { type: DataTypes.DATE },
-  Request_ID: { type: DataTypes.INTEGER, references: { model: Request, key: 'ID' }},
-  History_ID: { type: DataTypes.INTEGER, references: { model: History, key: 'History_ID' }}
+  endDate: { type: DataTypes.DATE }
 });
 
 module.exports = Disaster;

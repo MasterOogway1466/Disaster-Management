@@ -4,13 +4,19 @@ const express = require('express');
 const app = express();
 const sequelize = require('./config/database');
 const User = require('./models/User'); // Import User model
-
-const authRoutes = require('./routes/authRoutes');
-app.use('/auth', authRoutes);
-
-
 // Middleware to parse JSON requests
 app.use(express.json());
+
+const authRoutes = require('./routes/authRoutes');
+const volunteerRoutes = require('./routes/volunteerRoutes');
+const disasterRoutes = require('./routes/disasterRoutes');
+
+app.use('/auth', authRoutes);
+app.use('/volunteers', volunteerRoutes);
+app.use('/disasters', disasterRoutes);
+
+
+
 // Test route to add a sample user
 app.get('/test-user', async (req, res) => {
     try {
@@ -42,11 +48,12 @@ sequelize.authenticate()
   .then(() => console.log('Database connected successfully.'))
   .catch(error => console.error('Unable to connect to the database:', error));
 
-sequelize.sync({ force: true })
-  .then(() => {
-    console.log("Database & tables created!");
-    app.listen(3000, () => {
-      console.log('Server is running on http://localhost:3000');
-    });
-  })
-  .catch(error => console.log("Error creating database tables:", error));
+sequelize.sync({ force: true }) // Set to true only if you want to recreate tables
+  .then(() => console.log('Database & tables created!'))
+  .catch((error) => console.error('Error creating database tables:', error));
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
