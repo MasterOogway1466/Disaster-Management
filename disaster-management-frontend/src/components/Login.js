@@ -1,9 +1,11 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -23,6 +25,10 @@ const Login = () => {
     }
   };
 
+  const goToRegister = () => {
+    navigate('/register');
+  };
+
   return (
     <div className="container">
       <h2>Login</h2>
@@ -37,6 +43,8 @@ const Login = () => {
         </div>
         <button type="submit" className="login-btn">Login</button>
       </form>
+      <p>Don't have an account?</p>
+      <button onClick={goToRegister} className="nav-reg-btn">Go to Register</button> {/* Navigate to register page */}
     </div>
   );
 };
