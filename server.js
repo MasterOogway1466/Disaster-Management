@@ -48,7 +48,7 @@ sequelize.authenticate()
   .then(() => console.log('Database connected successfully.'))
   .catch(error => console.error('Unable to connect to the database:', error));
 
-sequelize.sync({ force: true }) // Set to true only if you want to recreate tables
+sequelize.sync({ force: false }) // Set to true only if you want to recreate tables
   .then(() => console.log('Database & tables created!'))
   .catch((error) => console.error('Error creating database tables:', error));
 
