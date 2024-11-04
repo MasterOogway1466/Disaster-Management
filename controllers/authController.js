@@ -54,3 +54,25 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: 'Failed to log in', error: error.message });
   }
 };
+
+exports.getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.userId); // Assuming `User` is correctly imported and `req.user.id` is set
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Send user data (exclude sensitive info like password)
+    res.json({
+      first_name: user.First_name,
+      last_name: user.Last_name,
+      username: user.Username,
+      email: user.Email,
+      phone_number: user.Phone_number,
+      dob: user.DOB,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve user data' });
+  }
+};
+
+
+

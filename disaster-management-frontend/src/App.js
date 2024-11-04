@@ -10,13 +10,17 @@ import Disasters from './components/Disasters';
 import Training from './components/Training';
 import ApplyVolunteer from './components/ApplyVolunteer';
 import Logout from './components/Logout';
+import ProtectedRoute from './components/ProtectedRoute';
+import Profile from './components/Profile';
+
 
 
 function App() {
   return (
     <Router>
       <Routes>
-      <Route path="/" element={<Home />} />
+      <Route
+          path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/volunteers" element={<Volunteers />} />
         <Route path="/disasters" element={<Disasters />} />
         <Route path="/training" element={<Training />} />
@@ -24,6 +28,7 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> 
       </Routes>
     </Router>
   );
