@@ -1,11 +1,19 @@
 // src/components/Logout.js
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Logout = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.removeItem('token'); // Clear token from localStorage
+    navigate('/login'); // Redirect to login page
+  }, [navigate]);
+
   return (
     <div className="container">
-      <h1>Logout</h1>
-      <p>You have been logged out. Thank you for using the NGO Disaster Management System.</p>
+      <h1>Logged Out</h1>
+      <p>You have been logged out successfully.</p>
     </div>
   );
 };

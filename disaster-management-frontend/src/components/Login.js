@@ -20,7 +20,7 @@ const Login = () => {
     try {
       const response = await axios.post('/auth/login', formData);
       localStorage.setItem('token', response.data.token); // Save JWT token to localStorage
-      alert('Login successful!');
+      setTimeout(() => navigate('/'), 200); // Redirect after 1 second
     } catch (error) {
       alert(error.response?.data?.message || 'Login failed');
     }
