@@ -9,7 +9,16 @@ const Volunteer = sequelize.define('Volunteer', {
   email: { type: DataTypes.STRING, allowNull: false, unique: true },
   phone_number: { type: DataTypes.STRING },
   DOB: { type: DataTypes.DATE },
-  Disaster_ID: { type: DataTypes.INTEGER }
+  Disaster_ID: { type: DataTypes.INTEGER },
+  user_id: { 
+    type: DataTypes.INTEGER, 
+    allowNull: false,
+    references: {
+      model: 'Users', // This should match the name of your User model
+      key: 'User_ID'
+    }
+  }
 });
 
 module.exports = Volunteer;
+

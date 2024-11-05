@@ -1,41 +1,61 @@
 // src/components/ApplyVolunteer.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+// Helper function to format the date as DD-MM-YYYY
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
+
 const ApplyVolunteer = () => {
-  const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone_number: '',
-    DOB: ''
-  });
+  const [userData, setUserData] = useState(null);
   const [message, setMessage] = useState('');
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  // Fetch the logged-in user's information
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('token'); // Retrieve token from localStorage
+        if (!token) {
+          setMessage('User is not authenticated');
+          return;
+        }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+        const response = await axios.get('/auth/profile', {
+          headers: { Authorization: `Bearer ${token}` } // Include token in headers
+        });
+
+        setUserData(response.data);
+      } catch (error) {
+        setMessage('Failed to retrieve user data');
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // Handle "Apply as Volunteer" submission
+  const handleApply = async () => {
     try {
-      const token = localStorage.getItem('token'); // Assuming the user is logged in
-      const response = await axios.post('/api/volunteers/volunteer-register', formData, {
+      const token = localStorage.getItem('token');
+      const response = await axios.post('/api/volunteers/volunteer-register', userData, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setMessage(response.data.message || 'Registration successful');
+      setMessage(response.data.message || 'Applied successfully as a volunteer');
     } catch (error) {
-      setMessage(error.response?.data?.message || 'Failed to register');
+      setMessage(error.response?.data?.message || 'Failed to apply as volunteer');
     }
   };
 
   return (
     <div>
-    <header>
+      <header>
         <nav className="nav-links">
           <ul>
             <li><Link to="/">Home</Link></li>
@@ -51,67 +71,26 @@ const ApplyVolunteer = () => {
         </nav>
       </header>
 
-    <div className="container">
-      <h2>Volunteer Registration</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label>First Name</label>
-          <input
-            type="text"
-            name="first_name"
-            value={formData.first_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label>Last Name</label>
-          <input
-            type="text"
-            name="last_name"
-            value={formData.last_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label>Phone Number</label>
-          <input
-            type="tel"
-            name="phone_number"
-            value={formData.phone_number}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label>Date of Birth</label>
-          <input
-            type="date"
-            name="DOB"
-            value={formData.DOB}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit" className="register-btn">Register as Volunteer</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
-    
-    <footer>
+      <div className="container">
+        <h2>Volunteer Registration</h2>
+        {userData ? (
+          <div>
+            <p><strong>First Name:</strong> {userData.first_name}</p>
+            <p><strong>Last Name:</strong> {userData.last_name}</p>
+            <p><strong>Email:</strong> {userData.email}</p>
+            <p><strong>Phone Number:</strong> {userData.phone_number}</p>
+            <p><strong>Date of Birth:</strong> {formatDate(userData.dob)}</p>
+            <button onClick={handleApply} className="apply-btn">Apply as Volunteer</button>
+          </div>
+        ) : (
+          <p>Loading user information...</p>
+        )}
+        {message && <p>{message}</p>}
+      </div>
+
+      <footer>
         <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
-    </footer>
+      </footer>
     </div>
   );
 };

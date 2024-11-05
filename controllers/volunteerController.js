@@ -3,9 +3,27 @@ const Volunteer = require('../models/Volunteer');
 const Disaster = require('../models/Disaster');
 
 exports.registerVolunteer = async (req, res) => {
-  const { first_name, last_name, email, phone_number, DOB } = req.body;
+  const { first_name, last_name, email, phone_number, dob } = req.body;
+
   try {
-    const newVolunteer = await Volunteer.create({ first_name, last_name, email, phone_number, DOB });
+    // Check if the volunteer already exists based on user_id
+    const existingVolunteer = await Volunteer.findOne({
+      where: { user_id: req.user.userId }
+    });
+
+    if (existingVolunteer) {
+      return res.status(400).json({ message: 'You are already a Volunteer!' });
+    }
+    
+    // Create a new volunteer if they do not already exist
+    const newVolunteer = await Volunteer.create({
+      first_name,
+      last_name,
+      email,
+      phone_number,
+      DOB: dob,
+      user_id: req.user.userId // Link volunteer to the logged-in user
+    });
     res.status(201).json({ message: 'Volunteer registered successfully', volunteer: newVolunteer });
   } catch (error) {
     res.status(500).json({ message: 'Failed to register volunteer', error: error.message });
