@@ -12,7 +12,7 @@ const volunteerRoutes = require('./routes/volunteerRoutes');
 const disasterRoutes = require('./routes/disasterRoutes');
 
 app.use('/auth', authRoutes);
-app.use('/volunteers', volunteerRoutes);
+app.use('/api/volunteers', volunteerRoutes);
 app.use('/disasters', disasterRoutes);
 
 

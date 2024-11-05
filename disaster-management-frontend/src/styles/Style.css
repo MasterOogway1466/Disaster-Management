@@ -98,8 +98,8 @@ nav.nav-links {
     flex-grow: 1;              /* Allow this section to take available space */
 }
 
-nav.logout {
-    margin-right: 30px;        /* Add margin to right side for spacing */
+nav.Logout {
+    margin-right: 20px;         /* Add margin to right side for spacing */
 }
 
 nav ul {

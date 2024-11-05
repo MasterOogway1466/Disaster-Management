@@ -19,13 +19,12 @@ function App() {
   return (
     <Router>
       <Routes>
-      <Route
-          path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/volunteers" element={<Volunteers />} />
-        <Route path="/disasters" element={<Disasters />} />
-        <Route path="/training" element={<Training />} />
-        <Route path="/apply-volunteer" element={<ApplyVolunteer />} />
-        <Route path="/logout" element={<Logout />} />
+        <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/volunteers" element={<ProtectedRoute><Volunteers /></ProtectedRoute>} />
+        <Route path="/disasters" element={<ProtectedRoute><Disasters /></ProtectedRoute>} />
+        <Route path="/training" element={<ProtectedRoute><Training /></ProtectedRoute>} />
+        <Route path="/apply-volunteer" element={<ProtectedRoute><ApplyVolunteer /></ProtectedRoute>} />
+        <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> 

@@ -1,13 +1,10 @@
 // routes/volunteerRoutes.js
 const express = require('express');
-const { registerVolunteer, assignVolunteerToDisaster } = require('../controllers/volunteerController');
-const { protect, authorize } = require('../middleware/authMiddleware');
 const router = express.Router();
+const { protect } = require('../middleware/authMiddleware');
+const { registerVolunteer } = require('../controllers/volunteerController');
 
-// Only admin can register volunteers
-router.post('/register', protect, authorize('admin'), registerVolunteer);
-
-// Assign volunteers to disasters (admin only)
-router.post('/assign-disaster', protect, authorize('admin'), assignVolunteerToDisaster);
+// Register as a volunteer with a unique route
+router.post('/volunteer-register', protect, registerVolunteer);
 
 module.exports = router;
