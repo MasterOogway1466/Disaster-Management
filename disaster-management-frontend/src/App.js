@@ -12,6 +12,9 @@ import ApplyVolunteer from './components/ApplyVolunteer';
 import Logout from './components/Logout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Profile from './components/Profile';
+import AdminRegister from './components/AdminRegister';
+import AdminLogin from './components/AdminLogin';
+import { Navigate } from 'react-router-dom';
 
 
 
@@ -27,7 +30,10 @@ function App() {
         <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/admin-register" element={<AdminRegister />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> 
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );

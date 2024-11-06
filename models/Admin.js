@@ -1,3 +1,4 @@
+// models/Admin.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
@@ -7,6 +8,7 @@ const Admin = sequelize.define('Admin', {
   Last_name: { type: DataTypes.STRING, allowNull: false },
   email: { type: DataTypes.STRING, allowNull: false, unique: true },
   phone_number: { type: DataTypes.STRING },
+  password: { type: DataTypes.STRING, allowNull: false }, // New field for password
   Apps_approved: { type: DataTypes.INTEGER, defaultValue: 0 },
   Apps_rejected: { type: DataTypes.INTEGER, defaultValue: 0 },
   Apps_pending: { type: DataTypes.INTEGER, defaultValue: 0 }
