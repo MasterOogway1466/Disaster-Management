@@ -1,10 +1,12 @@
-// routes/disasterRoutes.js
 const express = require('express');
-const { createDisaster, getAllDisasters } = require('../controllers/disasterController');
-const { protect, authorize } = require('../middleware/authMiddleware');
 const router = express.Router();
+const { protect, authorize } = require('../middleware/authMiddleware');
+const { getAllDisasters, addDisaster } = require('../controllers/disasterController');
 
-router.post('/create-disaster', protect, authorize('admin'), createDisaster);
-router.get('/', protect, getAllDisasters);
+// Route for getting all disasters (for all authenticated users)
+router.get('/', getAllDisasters);
+
+// Route for adding a new disaster (admin only)
+router.post('/add', addDisaster);
 
 module.exports = router;

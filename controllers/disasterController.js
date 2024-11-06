@@ -1,7 +1,7 @@
 // controllers/disasterController.js
 const Disaster = require('../models/Disaster');
 
-exports.createDisaster = async (req, res) => {
+exports.addDisaster = async (req, res) => {
   const { name, disasterType, location, severity, startDate, endDate } = req.body;
   try {
     const disaster = await Disaster.create({ name, disasterType, location, severity, startDate, endDate });

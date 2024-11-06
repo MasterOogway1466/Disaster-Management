@@ -1,34 +1,56 @@
-// src/components/Disasters.js
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import DisasterAdd from './DisasterAdd'; // Component for adding disasters
 
 const Disasters = () => {
+  const [disasters, setDisasters] = useState([]);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    // Fetch disasters from the backend
+    const fetchDisasters = async () => {
+      try {
+        const token = localStorage.getItem('token') || localStorage.getItem('adminToken');
+        const response = await axios.get('/api/disasters', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        // Log the response to inspect its structure
+        console.log("Disaster data response:", response.data);
+
+        // Check if response.data is an array; if so, update `disasters`
+        if (Array.isArray(response.data.disasters)) {
+          setDisasters(response.data.disasters);
+        } else {
+          setError('Unexpected response format');
+        }
+      } catch (error) {
+        setError('Failed to fetch disasters');
+      }
+    };
+
+    fetchDisasters();
+  }, []);
+
   return (
-    <div>
-    <header>
-    <nav className="nav-links">
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/volunteers">Volunteers</Link></li>
-        <li><Link to="/disasters">Disasters</Link></li>
-        <li><Link to="/training">Training</Link></li>
-        <li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>
-      </ul>
-    </nav>
-    <nav className="Logout">
-      <b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>
-      <b><Link to="/logout" style={{ color: 'white' }}>Logout</Link></b>
-    </nav>
-    </header>
-
     <div className="container">
-      <h1>Disasters</h1>
-      <p>This page will display information about ongoing and past disasters.</p>
-    </div>
+      <h2>Existing Disasters</h2>
+      {error && <p>{error}</p>}
+      <ul>
+        {/* Add conditional check to ensure disasters is an array before mapping */}
+        {Array.isArray(disasters) ? (
+          disasters.map((disaster) => (
+            <li key={disaster.Disaster_ID}>
+              <strong>{disaster.name}</strong> - {disaster.location} ({disaster.disasterType}, Severity: {disaster.severity})
+            </li>
+          ))
+        ) : (
+          <p>No disasters available to display</p>
+        )}
+      </ul>
 
-    <footer>
-        <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
-    </footer>
+      {/* Show DisasterAdd form if user is admin */}
+      {localStorage.getItem('adminToken') && <DisasterAdd />}
     </div>
   );
 };

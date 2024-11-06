@@ -14,6 +14,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Profile from './components/Profile';
 import AdminRegister from './components/AdminRegister';
 import AdminLogin from './components/AdminLogin';
+import DisasterAdd from './components/DisasterAdd'; 
 import { Navigate } from 'react-router-dom';
 
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/volunteers" element={<ProtectedRoute><Volunteers /></ProtectedRoute>} />
         <Route path="/disasters" element={<ProtectedRoute><Disasters /></ProtectedRoute>} />
+        <Route path="/disaster-add" element={<ProtectedRoute><DisasterAdd /></ProtectedRoute>} />
         <Route path="/training" element={<ProtectedRoute><Training /></ProtectedRoute>} />
         <Route path="/apply-volunteer" element={<ProtectedRoute><ApplyVolunteer /></ProtectedRoute>} />
         <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />

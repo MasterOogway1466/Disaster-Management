@@ -15,7 +15,7 @@ const adminRoutes = require('./routes/adminRoutes');
 
 app.use('/auth', authRoutes);
 app.use('/api/volunteers', volunteerRoutes);
-app.use('/disasters', disasterRoutes);
+app.use('/api/disasters', disasterRoutes);
 app.use('/api', adminRoutes);
 
 
