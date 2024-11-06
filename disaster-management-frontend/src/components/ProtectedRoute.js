@@ -2,14 +2,16 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('token'); // Retrieve token from localStorage
+  // Check for either user token or admin token in localStorage
+  const userToken = localStorage.getItem('token');  // Token for regular users
+  const adminToken = localStorage.getItem('adminToken');  // Token for admins
 
-  if (!token) {
-    // If no token, redirect to login page
+  if (!userToken && !adminToken) {
+    // If neither token exists, redirect to login page
     return <Navigate to="/login" replace />;
   }
 
-  // If token exists, render the child component
+  // If at least one token exists, render the child component
   return children;
 };
 
