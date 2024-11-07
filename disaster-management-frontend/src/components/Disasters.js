@@ -5,6 +5,7 @@ import DisasterAdd from './DisasterAdd'; // Component for adding disasters
 const Disasters = () => {
   const [disasters, setDisasters] = useState([]);
   const [error, setError] = useState('');
+  const [applyMessage, setApplyMessage] = useState('');
 
   useEffect(() => {
     // Fetch disasters from the backend
@@ -15,10 +16,8 @@ const Disasters = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        // Log the response to inspect its structure
         console.log("Disaster data response:", response.data);
 
-        // Check if response.data is an array; if so, update `disasters`
         if (Array.isArray(response.data.disasters)) {
           setDisasters(response.data.disasters);
         } else {
@@ -32,16 +31,38 @@ const Disasters = () => {
     fetchDisasters();
   }, []);
 
+  // Handle volunteer application for a specific disaster
+  const handleApply = async (disasterId) => {
+    try {
+      const token = localStorage.getItem('token'); // Only volunteers (not admins) should apply
+      if (!token) {
+        setApplyMessage('You need to log in as a volunteer to apply.');
+        return;
+      }
+
+      const response = await axios.post(
+        `/api/disasters/${disasterId}/apply`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setApplyMessage(response.data.message || 'Applied successfully');
+    } catch (error) {
+      setApplyMessage(error.response?.data?.message || 'Failed to apply');
+    }
+  };
+
   return (
     <div className="container">
       <h2>Existing Disasters</h2>
       {error && <p>{error}</p>}
+      {applyMessage && <p>{applyMessage}</p>}
       <ul>
-        {/* Add conditional check to ensure disasters is an array before mapping */}
         {Array.isArray(disasters) ? (
           disasters.map((disaster) => (
             <li key={disaster.Disaster_ID}>
               <strong>{disaster.name}</strong> - {disaster.location} ({disaster.disasterType}, Severity: {disaster.severity})
+              <button onClick={() => handleApply(disaster.Disaster_ID)}>Apply to Volunteer</button>
             </li>
           ))
         ) : (

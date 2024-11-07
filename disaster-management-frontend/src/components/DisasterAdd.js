@@ -9,7 +9,6 @@ const DisasterAdd = () => {
     location: '',
     severity: '',
     startDate: '',
-    endDate: ''
   });
   const [message, setMessage] = useState('');
 
@@ -60,8 +59,6 @@ const DisasterAdd = () => {
         <label>Start Date:</label>
         <input type="date" name="startDate" onChange={handleChange} required />
 
-        <label>End Date:</label>
-        <input type="date" name="endDate" onChange={handleChange} />
         <button type="submit">Add Disaster</button>
       </form>
     </div>
