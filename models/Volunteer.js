@@ -1,6 +1,7 @@
 // models/Volunteer.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const Disaster = require('./Disaster');
 
 const Volunteer = sequelize.define('Volunteer', {
   Volunteer_ID: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -19,6 +20,8 @@ const Volunteer = sequelize.define('Volunteer', {
     }
   }
 });
+
+Volunteer.belongsTo(Disaster, { as: 'appliedDisaster', foreignKey: 'Disaster_ID' });
 
 module.exports = Volunteer;
 

@@ -11,6 +11,7 @@ import Training from './components/Training';
 import ApplyVolunteer from './components/ApplyVolunteer';
 import Logout from './components/Logout';
 import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 import Profile from './components/Profile';
 import AdminRegister from './components/AdminRegister';
 import AdminLogin from './components/AdminLogin';
@@ -24,7 +25,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/volunteers" element={<ProtectedRoute><Volunteers /></ProtectedRoute>} />
+        <Route path="/volunteers" element={<ProtectedAdminRoute><Volunteers /></ProtectedAdminRoute>} />
         <Route path="/disasters" element={<ProtectedRoute><Disasters /></ProtectedRoute>} />
         <Route path="/disaster-add" element={<ProtectedRoute><DisasterAdd /></ProtectedRoute>} />
         <Route path="/training" element={<ProtectedRoute><Training /></ProtectedRoute>} />

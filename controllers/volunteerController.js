@@ -55,3 +55,23 @@ exports.assignVolunteerToDisaster = async (req, res) => {
     res.status(500).json({ message: 'Failed to assign volunteer to disaster', error: error.message });
   }
 };
+
+exports.getVolunteersWithDisasters = async (req, res) => {
+  try {
+    const volunteers = await Volunteer.findAll({
+      include: [
+        {
+          model: Disaster,
+          as: 'appliedDisaster', // Alias the association for clarity
+          required: false,       // Allows volunteers without disasters
+          attributes: ['name', 'disasterType', 'location'],
+        },
+      ],
+    });
+
+    res.status(200).json(volunteers);
+  } catch (error) {
+    console.error('Error fetching volunteers:', error);
+    res.status(500).json({ message: 'Failed to fetch volunteers' });
+  }
+};
