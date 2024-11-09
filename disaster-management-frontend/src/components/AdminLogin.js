@@ -19,6 +19,12 @@ const AdminLogin = () => {
     e.preventDefault();
     try {
       const response = await axios.post('/api/admin-login', formData);
+
+      if (response.data.clearUserToken) {
+        // Clear the user token from local storage
+        localStorage.removeItem('token');
+      }
+      
       localStorage.setItem('adminToken', response.data.token); // Store admin token in localStorage
       setMessage('Login successful');
       navigate('/'); // Redirect to the home page or admin dashboard

@@ -19,6 +19,11 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post('/auth/login', formData);
+
+      if (response.data.clearAdminToken) {
+        // Clear the user token from local storage
+        localStorage.removeItem('adminToken');
+      }
       localStorage.setItem('token', response.data.token); // Save JWT token to localStorage
       setTimeout(() => navigate('/'), 200); // Redirect after 1 second
     } catch (error) {
