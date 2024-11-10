@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DisasterAdd from './DisasterAdd'; // Component for adding disasters
+import { Link } from 'react-router-dom';
+
 
 const Disasters = () => {
   const [disasters, setDisasters] = useState([]);
@@ -53,6 +55,23 @@ const Disasters = () => {
   };
 
   return (
+    <div>
+      <header>
+        <nav className="nav-links">
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/volunteers">Volunteers</Link></li>
+            <li><Link to="/disasters">Disasters</Link></li>
+            <li><Link to="/training">Training</Link></li>
+            <li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>
+          </ul>
+        </nav>
+        <nav className="Logout">
+          <b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>
+          <b><Link to="/logout" style={{ color: 'white' }}>Logout</Link></b>
+        </nav>
+      </header>
+    
     <div className="container">
       <h2>Existing Disasters</h2>
       {error && <p>{error}</p>}
@@ -72,6 +91,10 @@ const Disasters = () => {
 
       {/* Show DisasterAdd form if user is admin */}
       {localStorage.getItem('adminToken') && <DisasterAdd />}
+    </div>
+    <footer>
+        <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
+      </footer>
     </div>
   );
 };

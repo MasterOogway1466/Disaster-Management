@@ -12,11 +12,14 @@ const authRoutes = require('./routes/authRoutes');
 const volunteerRoutes = require('./routes/volunteerRoutes');
 const disasterRoutes = require('./routes/disasterRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const trainingRoutes = require('./routes/trainingRoutes');
+
 
 app.use('/auth', authRoutes);
 app.use('/api/volunteers', volunteerRoutes);
 app.use('/api/disasters', disasterRoutes);
 app.use('/api', adminRoutes);
+app.use('/api/training', trainingRoutes);
 
 
 
