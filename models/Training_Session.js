@@ -10,4 +10,7 @@ const TrainingSession = sequelize.define('Training_Session', {
   Conducted_by: { type: DataTypes.INTEGER, references: { model: Volunteer, key: 'Volunteer_ID' }}
 });
 
+TrainingSession.belongsTo(Volunteer, { as: 'ConductedByVolunteer', foreignKey: 'Conducted_by' });
+
+
 module.exports = TrainingSession;

@@ -112,9 +112,10 @@ const Training = () => {
         <ul>
           {sessions.map(session => (
             <li key={session.session_ID}>
-              <strong>Session Name:</strong> {session.session_name} <br />
-              <strong>Date:</strong> {formatDate(session.Date)} <br />
-              <strong>Validity:</strong> {session.Validity} months <br />
+            <strong>Session Name:</strong> {session.session_name} <br />
+            <strong>Date:</strong> {formatDate(session.Date)} <br />
+            <strong>Validity:</strong> {session.Validity} months <br />
+            <strong>Conducted by:</strong> {session.ConductedByVolunteer?.first_name} {session.ConductedByVolunteer?.last_name} <br />
               {!isAdmin && (
                 <button onClick={() => registerForSession(session.session_ID)}>Register</button>
               )}

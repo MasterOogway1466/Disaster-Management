@@ -24,6 +24,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="*" element={<Navigate to="/" replace />} />
         <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/volunteers" element={<ProtectedAdminRoute><Volunteers /></ProtectedAdminRoute>} />
         <Route path="/disasters" element={<ProtectedRoute><Disasters /></ProtectedRoute>} />
@@ -36,7 +37,6 @@ function App() {
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> 
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );

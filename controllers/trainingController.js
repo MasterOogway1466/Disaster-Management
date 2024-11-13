@@ -6,7 +6,13 @@ const Volunteer = require('../models/Volunteer');
 // Get all training sessions
 exports.getTrainingSessions = async (req, res) => {
   try {
-    const sessions = await TrainingSession.findAll();
+    const sessions = await TrainingSession.findAll({
+      include: {
+        model: Volunteer,
+        as: 'ConductedByVolunteer', // Use alias to avoid conflict
+        attributes: ['first_name', 'last_name'], // Fetch volunteer name fields
+      }
+    });
     res.json(sessions);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch training sessions' });
@@ -32,7 +38,6 @@ exports.registerForSession = async (req, res) => {
   try {
     // Retrieve the current user's `userId` from the token
     const userId = req.user.userId;
-    console.log("User ID from token:", userId);
 
     // Find the corresponding volunteer using `user_id`
     const volunteer = await Volunteer.findOne({ where: { user_id: userId } });
@@ -42,6 +47,16 @@ exports.registerForSession = async (req, res) => {
 
     // Use `Volunteer_ID` for session registration
     const Volunteer_ID = volunteer.Volunteer_ID;
+
+     // Fetch the session and check if this volunteer is conducting it
+     const session = await TrainingSession.findByPk(Session_ID);
+     if (!session) {
+       return res.status(404).json({ message: 'Training session not found' });
+     }
+ 
+     if (session.Conducted_by === Volunteer_ID) {
+       return res.status(400).json({ message: 'You cannot register for a session you are conducting' });
+     }
 
     // Check if the volunteer is already registered for this session
     const existingRegistration = await SessionRegistrations.findOne({
