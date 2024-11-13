@@ -29,6 +29,8 @@ const Register = () => {
     try {
       const response = await axios.post('/auth/register', formData);
       alert(response.data.message);
+
+      navigate('/login');
     } catch (error) {
       alert(error.response?.data?.message || 'Registration failed');
     }
@@ -93,7 +95,7 @@ const Register = () => {
           />
         </div>
         <div className="input-group">
-          <label>Date of Birth</label>
+          <label>Date of Birth (Can't be changed later!)</label>
           <input
             type="date"
             name="dob"
@@ -115,7 +117,7 @@ const Register = () => {
         <button type="submit" className="register-btn">Register</button>
       </form>
       <p>Already have an account?</p>
-      <button onClick={goToLogin} className="nav-login-btn">Go to Login</button> {/* Navigate to login page */}
+      <button onClick={goToLogin} className="nav-login-btn">Go to Login</button> 
     </div>
   );
 };

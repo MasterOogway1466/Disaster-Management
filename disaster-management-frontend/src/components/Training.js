@@ -101,7 +101,7 @@ const Training = () => {
         </nav>
         <nav className="Logout">
           <b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>
-          <b><Link to="/logout" style={{ color: 'white' }}>Logout</Link></b>
+          <b><Link to="/logout" className='logout-link'>Logout</Link></b>
         </nav>
       </header>
       <div className="container">

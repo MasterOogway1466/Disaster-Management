@@ -5,11 +5,24 @@ const Admin = require('../models/Admin');
 // Middleware to protect routes (validates token for both User and Admin)
 exports.protect = async (req, res, next) => {
   const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
-  if (!token) return res.status(401).json({ message: 'No token provided' });
+
+  if (!token) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
 
   try {
+    // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Save decoded token info in `req.user`
+
+    // Fetch the user based on token’s payload
+    const user = await User.findByPk(decoded.userId); // Adjust field based on JWT payload structure
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    // Attach user to request object for access in route handlers
+    req.user = user;
     next();
   } catch (error) {
     res.status(401).json({ message: 'Token is not valid' });

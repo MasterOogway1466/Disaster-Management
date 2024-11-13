@@ -1,11 +1,8 @@
 // routes/authRoutes.js
 const express = require('express');
 const router = express.Router();
-const { verifyToken } = require('../middleware/authMiddleware');
-const { getUserProfile } = require('../controllers/authController'); // Ensure correct import from authController
-const { login } = require('../controllers/authController'); // Import the login function
-const { register } = require('../controllers/authController'); // Import the register function
-
+const { verifyToken, protect } = require('../middleware/authMiddleware'); 
+const { getUserProfile, login, register, updateUserProfile } = require('../controllers/authController'); 
 // Register route
 router.post('/register', register);
 
@@ -14,6 +11,8 @@ router.post('/login', login);
 
 // Profile route
 router.get('/profile', verifyToken, getUserProfile);
+
+router.put('/profile', protect, updateUserProfile);
 
 
 module.exports = router;

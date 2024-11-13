@@ -48,7 +48,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ userId: user.User_ID }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.User_ID }, process.env.JWT_SECRET, { expiresIn: '12h' });
     res.json({ message: 'Login successful', token, clearAdminToken: true });
   } catch (error) {
     res.status(500).json({ message: 'Failed to log in', error: error.message });
@@ -73,6 +73,23 @@ exports.getUserProfile = async (req, res) => {
     res.status(500).json({ message: 'Failed to retrieve user data' });
   }
 };
+
+exports.updateUserProfile = async (req, res) => {
+  try {
+    const userId = req.user.dataValues.User_ID;
+    const { First_name, Last_name, Username, Email, Phone_number } = req.body;
+    await User.update(
+      { First_name, Last_name, Username, Email, Phone_number },
+      { where: { User_ID: userId }, returning: true }
+    );
+    const updatedUser=await User.findOne({ where: { User_ID: userId } });
+    res.json(updatedUser.dataValues);
+    console.log(updatedUser.dataValues);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to update user', error: error.message });
+  }
+};
+
 
 
 
