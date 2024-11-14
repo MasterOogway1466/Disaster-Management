@@ -89,6 +89,7 @@ const Register = () => {
           <input
             type="tel"
             name="phone_number"
+            pattern="[0-9]{10}"
             value={formData.phone_number}
             onChange={handleChange}
             required

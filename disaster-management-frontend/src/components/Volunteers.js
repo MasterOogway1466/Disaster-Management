@@ -33,11 +33,11 @@ const Volunteers = () => {
     <div>
       <header>
         <nav className="nav-links">
-          <ul>
+         <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/volunteers">Volunteers</Link></li>
+            {isAdmin && (<li><Link to="/volunteers">Volunteers</Link></li>)}
             <li><Link to="/disasters">Disasters</Link></li>
-            {!isAdmin && (<li><Link to="/training">Training</Link></li>)}
+            <li><Link to="/training">Training</Link></li>
             {!isAdmin && (<li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>)}
           </ul>
         </nav>

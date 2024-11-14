@@ -11,4 +11,9 @@ const SessionRegistrations = sequelize.define('Session_registrations', {
   Successful_Completion: { type: DataTypes.BOOLEAN, defaultValue: false }
 }, { primaryKey: ['Session_ID', 'Volunteer_ID'] });
 
+// Associate with Volunteer and enable cascading delete
+Volunteer.hasMany(SessionRegistrations, { foreignKey: 'Volunteer_ID', onDelete: 'CASCADE' });
+SessionRegistrations.belongsTo(Volunteer, { foreignKey: 'Volunteer_ID', onDelete: 'CASCADE' });
+
+
 module.exports = SessionRegistrations;

@@ -52,7 +52,6 @@ const Profile = () => {
           value,
         ])
       );
-      console.log(transformedData);
   
       // Send transformed data to backend
       const response = await axios.put('/auth/profile', transformedData, {
@@ -67,17 +66,32 @@ const Profile = () => {
     }
   };
 
+  const deleteAccount = async () => {
+    if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+      try {
+        const token = localStorage.getItem('token');
+        await axios.delete('/auth/delete-account', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        localStorage.clear(); // Clear token from storage
+        navigate('/login'); // Redirect to registration after deletion
+      } catch (error) {
+        setError('Failed to delete account');
+      }
+    }
+  };
+
   if (error) return <p>{error}</p>;
 
   return (
     <div>
       <header>
         <nav className="nav-links">
-          <ul>
+         <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/volunteers">Volunteers</Link></li>
+            {isAdmin && (<li><Link to="/volunteers">Volunteers</Link></li>)}
             <li><Link to="/disasters">Disasters</Link></li>
-            {!isAdmin && (<li><Link to="/training">Training</Link></li>)}
+            <li><Link to="/training">Training</Link></li>
             {!isAdmin && (<li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>)}
           </ul>
         </nav>
@@ -86,31 +100,36 @@ const Profile = () => {
           <b><Link to="/logout" className='logout-link'>Logout</Link></b>
         </nav>
       </header>
+      
       <div style={styles.container}>
         <h2 style={styles.heading}>User Profile</h2>
         {userData ? (
           <div style={styles.profileCard}>
-            {!isEditing ? (
-              <>
-                <p><strong>First Name:</strong> {userData.first_name}</p>
-                <p><strong>Last Name:</strong> {userData.last_name}</p>
-                <p><strong>Username:</strong> {userData.username}</p>
-                <p><strong>Email:</strong> {userData.email}</p>
-                <p><strong>Phone Number:</strong> {userData.phone_number}</p>
-                <p><strong>Date of Birth:</strong> {formatDate(userData.dob)}</p>
+          {!isEditing ? (
+            <>
+              <p><strong>First Name:</strong> {userData.first_name}</p>
+              <p><strong>Last Name:</strong> {userData.last_name}</p>
+              <p><strong>Username:</strong> {userData.username}</p>
+              <p><strong>Email:</strong> {userData.email}</p>
+              <p><strong>Phone Number:</strong> {userData.phone_number}</p>
+              <p><strong>Date of Birth:</strong> {formatDate(userData.dob)}</p>
+              <div style={{ display: 'flex', gap: '10px' }}>
                 <button style={styles.editButton} onClick={handleEditClick}>Edit Profile</button>
-              </>
-            ) : (
-              <div style={styles.editForm}>
-                <label>First Name: <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} /></label>
-                <label>Last Name: <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} /></label>
-                <label>Username: <input type="text" name="username" value={formData.username} onChange={handleChange} /></label>
-                <label>Email: <input type="email" name="email" value={formData.email} onChange={handleChange} /></label>
-                <label>Phone Number: <input type="tel" name="phone_number" value={formData.phone_number} onChange={handleChange} /></label>
-                <button style={styles.saveButton} onClick={handleSave}>Save Changes</button>
+                <button style={styles.deleteButton} onClick={deleteAccount}>Delete Account</button>
               </div>
-            )}
-          </div>
+            </>
+          ) : (
+            <div style={styles.editForm}>
+              <label>First Name: <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} /></label>
+              <label>Last Name: <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} /></label>
+              <label>Username: <input type="text" name="username" value={formData.username} onChange={handleChange} /></label>
+              <label>Email: <input type="email" name="email" value={formData.email} onChange={handleChange} /></label>
+              <label>Phone Number: <input type="tel" name="phone_number" value={formData.phone_number} onChange={handleChange} /></label>
+              <button style={styles.saveButton} onClick={handleSave}>Save Changes</button>
+            </div>
+          )}
+        </div>
+        
         ) : (
           <p>Loading profile...</p>
         )}
@@ -140,6 +159,24 @@ const styles = {
     backgroundColor: '#f8f9fa',
     textAlign: 'left',
     marginBottom: '20px',
+  },
+  editButton: {
+    padding: '10px 20px',
+    fontSize: '16px',
+    marginRight: '10px',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  },
+  deleteButton: {
+    padding: '10px 20px',
+    fontSize: '16px',
+    backgroundColor: 'red',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
   },
   backButton: {
     padding: '10px 20px',

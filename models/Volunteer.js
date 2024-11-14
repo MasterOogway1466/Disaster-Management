@@ -2,6 +2,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Disaster = require('./Disaster');
+const User = require('./User');
 
 const Volunteer = sequelize.define('Volunteer', {
   Volunteer_ID: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -22,6 +23,8 @@ const Volunteer = sequelize.define('Volunteer', {
 });
 
 Volunteer.belongsTo(Disaster, { as: 'appliedDisaster', foreignKey: 'Disaster_ID' });
+Volunteer.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+User.hasOne(Volunteer, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 
 module.exports = Volunteer;
 

@@ -16,6 +16,7 @@ const formatDate = (dateString) => {
 const ApplyVolunteer = () => {
   const [userData, setUserData] = useState(null);
   const [message, setMessage] = useState('');
+  const isAdmin = !!localStorage.getItem('adminToken');
 
   // Fetch the logged-in user's information
   useEffect(() => {
@@ -57,17 +58,17 @@ const ApplyVolunteer = () => {
     <div>
       <header>
         <nav className="nav-links">
-          <ul>
+         <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/volunteers">Volunteers</Link></li>
+            {isAdmin && (<li><Link to="/volunteers">Volunteers</Link></li>)}
             <li><Link to="/disasters">Disasters</Link></li>
             <li><Link to="/training">Training</Link></li>
-            <li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>
+            {!isAdmin && (<li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>)}
           </ul>
         </nav>
         <nav className="Logout">
           <b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>
-          <b><Link to="/logout" style={{ color: 'white' }}>Logout</Link></b>
+          <b><Link to="/logout" className='logout-link'>Logout</Link></b>
         </nav>
       </header>
 

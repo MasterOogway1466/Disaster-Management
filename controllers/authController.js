@@ -2,6 +2,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Volunteer = require('../models/Volunteer');
 
 
 exports.register = async (req, res) => {
@@ -91,5 +92,26 @@ exports.updateUserProfile = async (req, res) => {
 };
 
 
+exports.deleteUserProfile = async (req, res) => {
+  console.log(req.user.dataValues.User_ID);
+  try {
+    const userId = req.user.dataValues.User_ID;
 
+    // // Check if user is a volunteer
+    // const volunteer = await Volunteer.findOne({ where: { user_id: userId } });
+    // if (volunteer) {
+    //   await volunteer.destroy(); // Deletes associated volunteer records
+    // }
+
+    // Delete user account
+    await User.destroy({ where: { User_ID: userId } });
+
+    console.log("Account and associated data deleted successfully");
+
+    res.status(200).json({ message: 'Account and associated data deleted successfully' });
+  } catch (error) {
+    console.log("your code is wrong")
+    res.status(500).json({ message: 'Failed to delete account', error: error.message });
+  }
+};
 

@@ -11,6 +11,7 @@ const DisasterAdd = () => {
     startDate: '',
   });
   const [message, setMessage] = useState('');
+  const isAdmin = !!localStorage.getItem('adminToken');
 
   const handleChange = (e) => {
     setFormData({
