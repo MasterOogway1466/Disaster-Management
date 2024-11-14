@@ -68,27 +68,49 @@ const Disasters = () => {
           </ul>
         </nav>
         <nav className="Logout">
-          <b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>
+          {!isAdmin && (<b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>)}
           <b><Link to="/logout" className='logout-link'>Logout</Link></b>
         </nav>
       </header>
     
-    <div className="container">
-      <h2>Existing Disasters</h2>
-      {error && <p>{error}</p>}
-      {applyMessage && <p>{applyMessage}</p>}
-      <ul>
-        {Array.isArray(disasters) ? (
-          disasters.map((disaster) => (
-            <li key={disaster.Disaster_ID}>
-              <strong>{disaster.name}</strong> - {disaster.location} ({disaster.disasterType}, Severity: {disaster.severity})
-              {!isAdmin && (<button onClick={() => handleApply(disaster.Disaster_ID)}>Apply to Volunteer</button>)}
-            </li>
-          ))
-        ) : (
-          <p>No disasters available to display</p>
-        )}
-      </ul>
+      <div className="container" style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
+  <h2>Existing Disasters</h2>
+  {error && <p style={{ color: 'red' }}>{error}</p>}
+  {applyMessage && <p style={{ color: 'green' }}>{applyMessage}</p>}
+  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+    <thead>
+      <tr>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Name</th>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Location</th>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Type</th>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Severity</th>
+        {!isAdmin && <th style={{ border: '1px solid #ddd', padding: '8px' }}>Action</th>}
+      </tr>
+    </thead>
+    <tbody>
+      {Array.isArray(disasters) ? (
+        disasters.map((disaster) => (
+          <tr key={disaster.Disaster_ID}>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}><strong>{disaster.name}</strong></td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{disaster.location}</td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{disaster.disasterType}</td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{disaster.severity}</td>
+            {!isAdmin && (
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                <button onClick={() => handleApply(disaster.Disaster_ID)}>Apply to Volunteer</button>
+              </td>
+            )}
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan={isAdmin ? 4 : 5} style={{ textAlign: 'center', padding: '8px' }}>No disasters available to display</td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+
+
 
       {/* Show DisasterAdd form if user is admin */}
       {localStorage.getItem('adminToken') && <DisasterAdd />}

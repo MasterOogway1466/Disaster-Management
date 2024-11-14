@@ -42,7 +42,7 @@ const Volunteers = () => {
           </ul>
         </nav>
         <nav className="Logout">
-          <b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>
+        {!isAdmin && (<b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>)}
           <b><Link to="/logout" className='logout-link'>Logout</Link></b>
         </nav>
       </header>

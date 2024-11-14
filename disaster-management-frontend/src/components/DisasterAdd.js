@@ -34,6 +34,7 @@ const DisasterAdd = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage(response.data.message || 'Disaster added successfully');
+      window.location.reload();
     } catch (error) {
         console.log(error);
       setMessage(error.response?.data?.message || 'Failed to add disaster');
@@ -51,6 +52,7 @@ const DisasterAdd = () => {
         
         <label>Severity:</label>
         <select name="severity" value={formData.severity} onChange={handleChange} required>
+          <option>--select--</option>
           <option value="low">Low</option>
           <option value="medium">Medium</option>
           <option value="high">High</option>

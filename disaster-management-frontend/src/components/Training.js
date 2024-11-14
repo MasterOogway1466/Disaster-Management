@@ -80,7 +80,9 @@ const Training = () => {
       // Handle success response
       setMessage(response.data.message || 'Session created successfully');
       // Optionally, clear the form or reset state
+
       setNewSession({ session_name: '', Date: '', Validity: '', Conducted_by: '' });
+      window.location.reload();
     } catch (error) {
       console.error('Error creating session:', error);
       setMessage(error.response?.data?.message || 'Failed to create session');
@@ -100,28 +102,52 @@ const Training = () => {
           </ul>
         </nav>
         <nav className="Logout">
-          <b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>
+          {!isAdmin && (<b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>)}
           <b><Link to="/logout" className='logout-link'>Logout</Link></b>
         </nav>
       </header>
-      <div className="container">
+
+      <div className="container" style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
         <h1>Training Sessions</h1>
         {message && <p>{message}</p>}
-
-        <h2>Available Sessions</h2>
-        <ul>
-          {sessions.map(session => (
-            <li key={session.session_ID}>
-            <strong>Session Name:</strong> {session.session_name} <br />
-            <strong>Date:</strong> {formatDate(session.Date)} <br />
-            <strong>Validity:</strong> {session.Validity} months <br />
-            <strong>Conducted by:</strong> {session.ConductedByVolunteer?.first_name} {session.ConductedByVolunteer?.last_name} <br />
-              {!isAdmin && (
+  <h2>Available Sessions</h2>
+  <center>
+  <table style={{ borderCollapse: 'collapse' }}>
+    <thead>
+      <tr>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Session Name</th>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Date</th>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Validity (months)</th>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Conducted By</th>
+        {!isAdmin && <th style={{ border: '1px solid #ddd', padding: '8px' }}>Action</th>}
+      </tr>
+    </thead>
+    <tbody>
+      {sessions.length > 0 ? (
+        sessions.map(session => (
+          <tr key={session.session_ID}>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}><strong>{session.session_name}</strong></td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{formatDate(session.Date)}</td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{session.Validity}</td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+              {session.ConductedByVolunteer?.first_name} {session.ConductedByVolunteer?.last_name}
+            </td>
+            {!isAdmin && (
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>
                 <button onClick={() => registerForSession(session.session_ID)}>Register</button>
-              )}
-            </li>
-          ))}
-        </ul>
+              </td>
+            )}
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan={isAdmin ? 4 : 5} style={{ textAlign: 'center', padding: '8px' }}>No sessions available</td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+  </center>
+
 
 
         {isAdmin && (
@@ -175,7 +201,7 @@ const Training = () => {
                 />
               </div>
 
-              <button type="submit">Create Session</button>
+              <button type="submit" style={{width:"25%", marginTop:"10px"}}>Create Session</button>
             </form>
           </div>
         )}
