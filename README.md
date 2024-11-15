@@ -24,19 +24,21 @@ Git (optional)
 Clone the repository using Git (https://git-scm.com/).
 Sequelize CLI (optional)
 
-Install Sequelize CLI globally to manage migrations and seeders:
-
+Install Sequelize CLI globally to manage migrations and seeders:<br/>
+`
 npm install -g sequelize-cli
+`
 
 ## Setup Instructions
 Clone the Repository
 
-
+```
 git clone <your-repo-url>
 cd <project-folder>
+```
 Install Dependencies Run the following command to install all required Node.js modules:
 
-npm install
+`npm install` <br/>
 Configure Environment Variables Create a .env file in the root directory and configure the following:
 
 PORT=3001
