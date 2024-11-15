@@ -25,26 +25,20 @@ Clone the repository using Git (https://git-scm.com/).
 Sequelize CLI (optional)
 
 Install Sequelize CLI globally to manage migrations and seeders:
-bash
-Copy code
+
 npm install -g sequelize-cli
 
 ## Setup Instructions
 Clone the Repository
 
-bash
-Copy code
+
 git clone <your-repo-url>
 cd <project-folder>
 Install Dependencies Run the following command to install all required Node.js modules:
 
-bash
-Copy code
 npm install
 Configure Environment Variables Create a .env file in the root directory and configure the following:
 
-makefile
-Copy code
 PORT=3001
 DB_HOST=localhost
 DB_USER=<your-database-username>
@@ -53,28 +47,26 @@ DB_NAME=<your-database-name>
 JWT_SECRET=<your-jwt-secret-key>
 Set Up Database Ensure your database is created in MySQL. Run the following command to sync models and set up tables:
 
-bash
-Copy code
+
 node server.js
 Alternatively, use Sequelize migrations if configured.
 
 Run the Server Start the backend server:
 
-bash
-Copy code
+
 npm start
+
 Run the Frontend Navigate to the frontend directory (if separate) and install dependencies:
 
-bash
-Copy code
 npm install
+
 Then, start the React development server:
 
-bash
-Copy code
 npm start
 
 ## Usage
 Access the app via the configured URL (default: http://localhost:3000).
+
 Admins can manage volunteers, disasters, and training sessions.
+
 Volunteers can register for disasters and training sessions.
