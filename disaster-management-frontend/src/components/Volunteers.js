@@ -48,7 +48,7 @@ const Volunteers = () => {
       </header>
 
       <div className="container">
-        <h1>Volunteers Page</h1>
+        <h1 style={{ color: 'black' }}>Volunteers Page</h1>
         {error && <p>{error}</p>}
         <ul>
           {volunteers.map((volunteer) => (
