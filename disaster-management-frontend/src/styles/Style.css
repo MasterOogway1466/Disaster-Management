@@ -4,6 +4,7 @@ body {
     background-color: #afafaf;
     margin: 0;
     padding: 0;
+    
 }
 
 a {
@@ -83,7 +84,7 @@ input::placeholder, textarea::placeholder {
 button, .login-btn {
     width: 100%;
     padding: 10px;
-    background-color: #2ecc71;
+    background-color: #27ae60;
     color: white;
     border: none;
     border-radius: 5px;
@@ -91,7 +92,7 @@ button, .login-btn {
 }
 
 button:hover, .login-btn:hover {
-    background-color: #27ae60;
+    background-color: #229853;
 }
 
 /* Navigation Bar Styling */
@@ -152,10 +153,11 @@ footer {
     background-color: #000000;
     color: white;
     text-align: center;
+    position:fixed;
     padding: 15px 0;
-    position: fixed;
     bottom: 0;
     width: 100%;
+    margin-bottom: 0px;
 }
 
 footer p {

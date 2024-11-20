@@ -47,25 +47,55 @@ const Volunteers = () => {
         </nav>
       </header>
 
-      <div className="container">
-        <h1>Volunteers Page</h1>
-        {error && <p>{error}</p>}
-        <ul>
-          {volunteers.map((volunteer) => (
-            <li key={volunteer.Volunteer_ID}>
-              <p><strong>{volunteer.first_name} {volunteer.last_name}</strong></p>
-              <p>Email: {volunteer.email}</p>
-              <p>Phone: {volunteer.phone_number}</p>
-              {volunteer.appliedDisaster ? (
-                <p>Applied Disaster: {volunteer.appliedDisaster.name} ({volunteer.appliedDisaster.disasterType})</p>
-              ) : (
-                <p>No disaster application found</p>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+  <div className="container"style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
+    <h1 style={{color:"Black"}}>Volunteers Page</h1>
+    {error && <p>{error}</p>}
+  <center>
+    <table style={{ width: '80%', borderCollapse: 'collapse' }}>
+  {volunteers.length > 0 && (
+    <thead>
+      <tr>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Name</th>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Email</th>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Phone</th>
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Applied Disaster</th>
+      </tr>
+    </thead>
+  )}
+<tbody>
+  {volunteers.length > 0 ? (
+    volunteers.map((volunteer) => (
+      <tr key={volunteer.Volunteer_ID}>
+        <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
+          <strong>{volunteer.first_name} {volunteer.last_name}</strong>
+        </td>
+        <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
+          {volunteer.email}
+        </td>
+        <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
+          {volunteer.phone_number}
+        </td>
+        <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
+          {volunteer.appliedDisaster ? (
+            `${volunteer.appliedDisaster.name} (${volunteer.appliedDisaster.disasterType})`
+          ) : (
+            'No disaster application found'
+          )}
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={4} style={{ textAlign: 'center', padding: '8px' }}>
+        No volunteers available to display
+      </td>
+    </tr>
+  )}
+</tbody>
 
+</table>
+</center>
+      </div>
       <footer>
         <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
       </footer>

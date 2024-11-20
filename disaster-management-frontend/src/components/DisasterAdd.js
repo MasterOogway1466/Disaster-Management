@@ -46,9 +46,9 @@ const DisasterAdd = () => {
       <h3>Add a New Disaster</h3>
       {message && <p>{message}</p>}
       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Disaster Name" onChange={handleChange} required />
-        <input type="text" name="disasterType" placeholder="Disaster Type" onChange={handleChange} required />
-        <input type="text" name="location" placeholder="Location" onChange={handleChange} required />
+        <div><input type="text" style={{width:"50%"}} name="name" placeholder="Disaster Name" onChange={handleChange} required /></div>
+        <div><input type="text" style={{width:"50%"}}name="disasterType" placeholder="Disaster Type" onChange={handleChange} required /></div>
+        <div><input type="text" style={{width:"50%"}}name="location" placeholder="Location" onChange={handleChange} required /></div>
         
         <label>Severity:</label>
         <select name="severity" value={formData.severity} onChange={handleChange} required>
@@ -60,9 +60,8 @@ const DisasterAdd = () => {
         </select>
 
         <label>Start Date:</label>
-        <input type="date" name="startDate" onChange={handleChange} required />
-
-        <button type="submit">Add Disaster</button>
+        <div> <input type="date" name="startDate" onChange={handleChange} required /></div>
+        <button type="submit" style={{width:"25%", marginTop:"10px"}} >Add Disaster</button>
       </form>
     </div>
   );

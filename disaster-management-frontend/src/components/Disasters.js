@@ -76,8 +76,9 @@ const Disasters = () => {
       <div className="container" style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
   <h2>Existing Disasters</h2>
   {error && <p style={{ color: 'red' }}>{error}</p>}
-  {applyMessage && <p style={{ color: 'green' }}>{applyMessage}</p>}
+  {applyMessage && <p style={{ color: 'red' }}>{applyMessage}</p>}
   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+  {disasters.length > 0 && (
     <thead>
       <tr>
         <th style={{ border: '1px solid #ddd', padding: '8px' }}>Name</th>
@@ -87,6 +88,7 @@ const Disasters = () => {
         {!isAdmin && <th style={{ border: '1px solid #ddd', padding: '8px' }}>Action</th>}
       </tr>
     </thead>
+  )}
     <tbody>
       {Array.isArray(disasters) ? (
         disasters.map((disaster) => (

@@ -108,11 +108,12 @@ const Training = () => {
       </header>
 
       <div className="container" style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
-        <h1>Training Sessions</h1>
+        <h1 style={{ color:"black"}}>Training Sessions</h1>
         {message && <p>{message}</p>}
   <h2>Available Sessions</h2>
   <center>
   <table style={{ borderCollapse: 'collapse' }}>
+  {sessions.length > 0 && (
     <thead>
       <tr>
         <th style={{ border: '1px solid #ddd', padding: '8px' }}>Session Name</th>
@@ -122,6 +123,7 @@ const Training = () => {
         {!isAdmin && <th style={{ border: '1px solid #ddd', padding: '8px' }}>Action</th>}
       </tr>
     </thead>
+  )}
     <tbody>
       {sessions.length > 0 ? (
         sessions.map(session => (
@@ -158,6 +160,7 @@ const Training = () => {
                 <label htmlFor="session_name">Session Name:</label>
                 <input
                   type="text" // Change input type to text for session name
+                  style={{width:"50%"}}
                   id="session_name"
                   name="session_name"
                   placeholder="Enter session name"
@@ -166,7 +169,7 @@ const Training = () => {
                 />
               </div>
 
-              <div>
+              <div style={{marginTop:"10px"}}>
                 <label htmlFor="Date">Session Date:</label>
                 <input
                   type="date"
@@ -177,7 +180,7 @@ const Training = () => {
                 />
               </div>
 
-              <div>
+              <div style={{marginTop:"10px"}}>
                 <label htmlFor="Validity">Validity (months):</label>
                 <input
                   type="number"
@@ -189,7 +192,7 @@ const Training = () => {
                 />
               </div>
 
-              <div>
+              <div style={{marginTop:"10px"}}>
                 <label htmlFor="Conducted_by">Conducted By (Volunteer ID):</label>
                 <input
                   type="number"
