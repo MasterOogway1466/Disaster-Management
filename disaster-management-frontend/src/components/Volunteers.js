@@ -39,6 +39,7 @@ const Volunteers = () => {
             <li><Link to="/disasters">Disasters</Link></li>
             <li><Link to="/training">Training</Link></li>
             {!isAdmin && (<li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>)}
+            {isAdmin && (<li><Link to="/volunteer-feedback">Volunteer feedback</Link></li>)}
           </ul>
         </nav>
         <nav className="Logout">
@@ -48,7 +49,7 @@ const Volunteers = () => {
       </header>
 
 
-  <div className="container"style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
+  <div className="container" style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
     <h1 style={{color:"Black"}}>Volunteers Page</h1>
     {error && <p>{error}</p>}
   <center>

@@ -93,6 +93,7 @@ const Profile = () => {
             <li><Link to="/disasters">Disasters</Link></li>
             <li><Link to="/training">Training</Link></li>
             {!isAdmin && (<li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>)}
+            {isAdmin && (<li><Link to="/volunteer-feedback">Volunteer feedback</Link></li>)}
           </ul>
         </nav>
         <nav className="Logout">

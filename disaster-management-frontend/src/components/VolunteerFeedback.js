@@ -26,6 +26,7 @@ const VolunteerFeedback = () => {
   const handleFeedbackChange = (volunteerId, disasterId, value) => {
     setFeedback({ ...feedback, [`${volunteerId}-${disasterId}`]: value });
   };
+  const isAdmin = !!localStorage.getItem('adminToken'); 
 
   const submitFeedback = async (volunteerId, disasterId) => {
     const feedbackText = feedback[`${volunteerId}-${disasterId}`];
@@ -48,57 +49,65 @@ const VolunteerFeedback = () => {
   };
 
   return (
-    <div className="container">
+    <div>
       <header>
         <nav className="nav-links">
-          <ul>
+         <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/volunteers">Volunteers</Link></li>
+            {isAdmin && (<li><Link to="/volunteers">Volunteers</Link></li>)}
             <li><Link to="/disasters">Disasters</Link></li>
             <li><Link to="/training">Training</Link></li>
+            {!isAdmin && (<li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>)}
+            {isAdmin && (<li><Link to="/volunteer-feedback">Volunteer feedback</Link></li>)}
           </ul>
+        </nav>
+        <nav className="Logout">
+        {!isAdmin && (<b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>)}
+          <b><Link to="/logout" className='logout-link'>Logout</Link></b>
         </nav>
       </header>
 
+      <div className="container" style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
       <h2>Volunteer Feedback</h2>
       {message && <p>{message}</p>}
 
       <table border="1" style={{ width: '100%', textAlign: 'left' }}>
         <thead>
           <tr>
-            <th>Volunteer Name</th>
-            <th>Disaster Name</th>
-            <th>Feedback</th>
-            <th>Action</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Volunteer Name</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Disaster Name</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Feedback</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Action</th>
           </tr>
         </thead>
         <tbody>
           {volunteers.map((volunteer) => (
             volunteer.appliedDisaster ? (
               <tr key={volunteer.Volunteer_ID}>
-                <td>{volunteer.first_name} {volunteer.last_name}</td>
-                <td>{volunteer.appliedDisaster.name}</td>
-                <td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{volunteer.first_name} {volunteer.last_name}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{volunteer.appliedDisaster.name}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
                   <textarea
                     value={feedback[`${volunteer.Volunteer_ID}-${volunteer.Disaster_ID}`] || ''}
                     onChange={(e) => handleFeedbackChange(volunteer.Volunteer_ID, volunteer.Disaster_ID, e.target.value)}
                   />
                 </td>
-                <td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
                   <button onClick={() => submitFeedback(volunteer.Volunteer_ID, volunteer.Disaster_ID)}>Submit</button>
                 </td>
               </tr>
             ) : (
               <tr key={volunteer.Volunteer_ID}>
-                <td>{volunteer.first_name} {volunteer.last_name}</td>
-                <td>No Disaster Assigned</td>
-                <td>Not Applicable</td>
-                <td>--</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{volunteer.first_name} {volunteer.last_name}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>No Disaster Assigned</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Not Applicable</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>--</td>
               </tr>
             )
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };
