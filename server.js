@@ -5,6 +5,7 @@ const app = express();
 const sequelize = require('./config/database');
 const User = require('./models/User'); // Import User model
 const Admin = require('./models/Admin'); // Import Admin model
+const History = require('./models/History');
 // Middleware to parse JSON requests
 app.use(express.json());
 
@@ -13,6 +14,8 @@ const volunteerRoutes = require('./routes/volunteerRoutes');
 const disasterRoutes = require('./routes/disasterRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const trainingRoutes = require('./routes/trainingRoutes');
+const historyRoutes = require('./routes/historyRoutes');
+
 
 
 app.use('/auth', authRoutes);
@@ -20,6 +23,8 @@ app.use('/api/volunteers', volunteerRoutes);
 app.use('/api/disasters', disasterRoutes);
 app.use('/api', adminRoutes);
 app.use('/api/training', trainingRoutes);
+app.use('/api/history', historyRoutes);
+
 
 
 

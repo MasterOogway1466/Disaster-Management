@@ -47,6 +47,7 @@ const Volunteers = () => {
         </nav>
       </header>
 
+
   <div className="container"style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
     <h1 style={{color:"Black"}}>Volunteers Page</h1>
     {error && <p>{error}</p>}

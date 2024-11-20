@@ -15,7 +15,8 @@ import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 import Profile from './components/Profile';
 import AdminRegister from './components/AdminRegister';
 import AdminLogin from './components/AdminLogin';
-import DisasterAdd from './components/DisasterAdd'; 
+import DisasterAdd from './components/DisasterAdd';
+import VolunteerFeedback from './components/VolunteerFeedback'; 
 import { Navigate } from 'react-router-dom';
 
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> 
+        <Route path="/volunteer-feedback" element={<ProtectedAdminRoute><VolunteerFeedback /></ProtectedAdminRoute>} />
       </Routes>
     </Router>
   );
