@@ -99,7 +99,7 @@ const Volunteers = () => {
 </center>
       </div>
       <footer>
-        <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
+        <p>© 2024 NGO Disaster Management System.</p>
       </footer>
     </div>
   );

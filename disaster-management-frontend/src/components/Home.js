@@ -24,13 +24,22 @@ const Home = () => {
       </header>
 
       <div className="home-container">
-        <h1>Welcome to the NGO Disaster Management System</h1>
-        <p>This system helps NGOs manage volunteers and assign them to relevant disasters.</p>
-        <p>Explore the features by navigating through the menu.</p>
+        <h1 style={{backgroundColor: "grey", borderRadius: "10px", padding: "10px"}}>Welcome to the NGO Disaster Management System</h1>
+        {!isAdmin && (
+          <div>
+          <p>This system helps NGOs manage volunteers and assign them to relevant disasters.</p>
+          <p>Explore the features by navigating through the menu.</p>
+          </div>
+        )}
+        {isAdmin && (
+          <div>
+          <p>Navigate the website to get insights about Volunteers and manage the Website</p>
+          </div>
+        )}
       </div>
 
       <footer>
-        <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
+        <p>© 2024 NGO Disaster Management System. </p>
       </footer>
     </div>
   );
