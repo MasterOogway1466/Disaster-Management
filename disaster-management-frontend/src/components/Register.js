@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const Register = () => {
@@ -41,6 +42,15 @@ const Register = () => {
   };
 
   return (
+    <div>
+       <header>
+        <nav className="nav-links">
+        </nav>
+        <nav className="Logout">
+          <b><Link to="/admin-login" style={{ color: '#00395f', marginRight: '15px'  }}>Admin</Link></b>
+          <b><Link to="/login" style={{ color: 'white' }}>User - Login</Link></b>
+        </nav>
+      </header>
     <div className="container">
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
@@ -119,6 +129,11 @@ const Register = () => {
       </form>
       <p>Already have an account?</p>
       <button onClick={goToLogin} className="nav-login-btn">Go to Login</button> 
+    </div>
+
+    <footer>
+        <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
+    </footer>
     </div>
   );
 };

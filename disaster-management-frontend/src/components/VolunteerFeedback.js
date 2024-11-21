@@ -71,49 +71,48 @@ const VolunteerFeedback = () => {
         <h2>Volunteer Feedback</h2>
         {message && <p>{message}</p>}
 
-        <table border="1" style={{ width: '100%', textAlign: 'left' }}>
-          <thead>
-            <tr>
-              <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Volunteer Name</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Disaster Name</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Feedback</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {volunteers.map((volunteer) => (
-              volunteer.appliedDisaster ? (
-                <tr key={volunteer.Volunteer_ID}>
-                  <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
-                    {volunteer.first_name} {volunteer.last_name}
-                  </td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
-                    {volunteer.appliedDisaster.name}
-                  </td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
-                    <textarea
-                      value={feedback[`${volunteer.Volunteer_ID}-${volunteer.Disaster_ID}`] || ''}
-                      onChange={(e) => handleFeedbackChange(volunteer.Volunteer_ID, volunteer.Disaster_ID, e.target.value)}
-                    />
-                  </td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
-                    <button onClick={() => submitFeedback(volunteer.Volunteer_ID, volunteer.Disaster_ID)}>Submit</button>
-                  </td>
-                </tr>
-              ) : (
-                <tr key={volunteer.Volunteer_ID}>
-                  <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
-                    {volunteer.first_name} {volunteer.last_name}
-                  </td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>No Disaster Assigned</td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Not Applicable</td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>--</td>
-                </tr>
-              )
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <table border="1" style={{ width: '100%', textAlign: 'left' }}>
+        <thead>
+          <tr>
+            <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Volunteer Name</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Disaster Name</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Feedback</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {volunteers.map((volunteer) => (
+            volunteer.appliedDisaster ? (
+              <tr key={volunteer.Volunteer_ID}>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{volunteer.first_name} {volunteer.last_name}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{volunteer.appliedDisaster.name}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
+                  <textarea
+                    value={feedback[`${volunteer.Volunteer_ID}-${volunteer.Disaster_ID}`] || ''}
+                    onChange={(e) => handleFeedbackChange(volunteer.Volunteer_ID, volunteer.Disaster_ID, e.target.value)}
+                  />
+                </td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
+                  <button onClick={() => submitFeedback(volunteer.Volunteer_ID, volunteer.Disaster_ID)}>Submit</button>
+                </td>
+              </tr>
+            ) : (
+              <tr key={volunteer.Volunteer_ID}>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{volunteer.first_name} {volunteer.last_name}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>No Disaster Assigned</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Not Applicable</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>--</td>
+              </tr>
+            )
+          ))}
+        </tbody>
+      </table>
+    </div>
+    
+    <footer>
+        <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
+    </footer>
+    
     </div>
   );
 };
