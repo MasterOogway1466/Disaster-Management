@@ -12,6 +12,8 @@ const formatDate = (dateString) => {
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
+  const [volunteerHistory, setVolunteerHistory] = useState([]);
+  const [isVolunteer, setIsVolunteer] = useState(false);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
@@ -26,40 +28,73 @@ const Profile = () => {
           setError('User is not authenticated');
           return;
         }
+
+        // Fetch user profile data
         const response = await axios.get('/auth/profile', {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
         setUserData(response.data);
         setFormData(response.data);
+
+        // Check if the user is a volunteer
+        checkIfVolunteer(response.data.User_ID);
       } catch (err) {
         setError('Failed to get user data');
       }
     };
+
+    const checkIfVolunteer = async (userId) => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`/api/volunteers/check/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setIsVolunteer(response.data.isVolunteer);
+        fetchVolunteerHistory(userId);
+      } catch (err) {
+        console.error('Error checking volunteer status:', err);
+        setIsVolunteer(false);
+      }
+    };
+
+    const fetchVolunteerHistory = async (userId) => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`/api/history/history/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setVolunteerHistory(response.data);
+        console.log(response.data);
+      } catch (err) {
+        console.error('Failed to fetch volunteer history:', err);
+        setVolunteerHistory([]);
+      }
+    };
+
     fetchUserData();
   }, []);
 
   const handleEditClick = () => setIsEditing(true);
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSave = async () => {
     try {
       const token = localStorage.getItem('token');
-  
       const transformedData = Object.fromEntries(
         Object.entries(formData).map(([key, value]) => [
           key.charAt(0).toUpperCase() + key.slice(1),
           value,
         ])
       );
-  
+
       // Send transformed data to backend
-      const response = await axios.put('/auth/profile', transformedData, {
+      await axios.put('/auth/profile', transformedData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setIsEditing(false);
       setError(null);
-
       window.location.reload();
     } catch (error) {
       setError('Failed to update profile');
@@ -87,7 +122,7 @@ const Profile = () => {
     <div>
       <header>
         <nav className="nav-links">
-         <ul>
+          <ul>
             <li><Link to="/">Home</Link></li>
             {isAdmin && (<li><Link to="/volunteers">Volunteers</Link></li>)}
             <li><Link to="/disasters">Disasters</Link></li>
@@ -101,46 +136,77 @@ const Profile = () => {
           <b><Link to="/logout" className='logout-link'>Logout</Link></b>
         </nav>
       </header>
-      
+
       <div style={styles.container}>
         <h2 style={styles.heading}>User Profile</h2>
         {userData ? (
           <div style={styles.profileCard}>
-          {!isEditing ? (
-            <>
-              <p><strong>First Name:</strong> {userData.first_name}</p>
-              <p><strong>Last Name:</strong> {userData.last_name}</p>
-              <p><strong>Username:</strong> {userData.username}</p>
-              <p><strong>Email:</strong> {userData.email}</p>
-              <p><strong>Phone Number:</strong> {userData.phone_number}</p>
-              <p><strong>Date of Birth:</strong> {formatDate(userData.dob)}</p>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button style={styles.editButton} onClick={handleEditClick}>Edit Profile</button>
-                <button style={styles.deleteButton} onClick={deleteAccount}>Delete Account</button>
+            {!isEditing ? (
+              <>
+                <p><strong>First Name:</strong> {userData.first_name}</p>
+                <p><strong>Last Name:</strong> {userData.last_name}</p>
+                <p><strong>Username:</strong> {userData.username}</p>
+                <p><strong>Email:</strong> {userData.email}</p>
+                <p><strong>Phone Number:</strong> {userData.phone_number}</p>
+                <p><strong>Date of Birth:</strong> {formatDate(userData.dob)}</p>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <button style={styles.editButton} onClick={handleEditClick}>Edit Profile</button>
+                  <button style={styles.deleteButton} onClick={deleteAccount}>Delete Account</button>
+                </div>
+              </>
+            ) : (
+              <div style={styles.editForm}>
+                <label>First Name: <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} /></label>
+                <label>Last Name: <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} /></label>
+                <label>Username: <input type="text" name="username" value={formData.username} onChange={handleChange} /></label>
+                <label>Email: <input type="email" name="email" value={formData.email} onChange={handleChange} /></label>
+                <label>Phone Number: <input type="tel" name="phone_number" value={formData.phone_number} onChange={handleChange} /></label>
+                <button style={styles.saveButton} onClick={handleSave}>Save Changes</button>
               </div>
-            </>
-          ) : (
-            <div style={styles.editForm}>
-              <label>First Name: <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} /></label>
-              <label>Last Name: <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} /></label>
-              <label>Username: <input type="text" name="username" value={formData.username} onChange={handleChange} /></label>
-              <label>Email: <input type="email" name="email" value={formData.email} onChange={handleChange} /></label>
-              <label>Phone Number: <input type="tel" name="phone_number" value={formData.phone_number} onChange={handleChange} /></label>
-              <button style={styles.saveButton} onClick={handleSave}>Save Changes</button>
-            </div>
-          )}
-        </div>
-        
+            )}
+          </div>
         ) : (
           <p>Loading profile...</p>
         )}
-        <button style={styles.backButton} onClick={() => navigate('/')}>Back to Home</button>
+
       </div>
       
-    <footer>
+      <div className='container' style={{ marginTop:"0px"}}>
+      {isVolunteer && (
+          <div style={styles.historySection}>
+            <h2>Volunteer History</h2>
+            {volunteerHistory.length > 0 ? (
+              <table style={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Disaster Name</th>
+                    <th>Location</th>
+                    <th>Type</th>
+                    <th>Severity</th>
+                    <th>Feedback</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {volunteerHistory.map((record) => (
+                    <tr key={record.History_ID}>
+                      <td>{record.Disaster_Name || 'N/A'}</td>
+                      <td>{record.Disaster_Location || 'N/A'}</td>
+                      <td>{record.Disaster_Type || 'N/A'}</td>
+                      <td>{record.Disaster_Severity || 'N/A'}</td>
+                      <td>{record.Feedback || 'No feedback available'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No history available</p>
+            )}
+          </div>
+        )}
+      </div>
+      <footer>
         <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
-    </footer>
-    
+      </footer>
     </div>
   );
 };
@@ -166,6 +232,15 @@ const styles = {
     textAlign: 'left',
     marginBottom: '20px',
   },
+  historySection: {
+    marginTop: '30px',
+    width: '80%',
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    marginTop: '20px',
+  },
   editButton: {
     padding: '10px 20px',
     fontSize: '16px',
@@ -184,16 +259,15 @@ const styles = {
     borderRadius: '5px',
     cursor: 'pointer',
   },
-  backButton: {
+  saveButton: {
     padding: '10px 20px',
     fontSize: '16px',
+    backgroundColor: '#4CAF50',
     color: 'white',
-    backgroundColor: '#2c3e50',
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
-    width: 'fit-content',
-  }
+  },
 };
 
 export default Profile;

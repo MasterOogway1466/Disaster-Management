@@ -63,6 +63,7 @@ exports.getUserProfile = async (req, res) => {
 
     // Send user data (exclude sensitive info like password)
     res.json({
+      User_ID: user.User_ID,
       first_name: user.First_name,
       last_name: user.Last_name,
       username: user.Username,
