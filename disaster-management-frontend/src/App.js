@@ -16,7 +16,8 @@ import Profile from './components/Profile';
 import AdminRegister from './components/AdminRegister';
 import AdminLogin from './components/AdminLogin';
 import DisasterAdd from './components/DisasterAdd';
-import VolunteerFeedback from './components/VolunteerFeedback'; 
+import VolunteerFeedback from './components/VolunteerFeedback';
+import GetVolunteerHistory from './components/GetVolunteerHistory';
 import { Navigate } from 'react-router-dom';
 
 
@@ -39,6 +40,7 @@ function App() {
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> 
         <Route path="/volunteer-feedback" element={<ProtectedAdminRoute><VolunteerFeedback /></ProtectedAdminRoute>} />
+        <Route path="/get-volunteer-history" element={<ProtectedAdminRoute><GetVolunteerHistory /></ProtectedAdminRoute>} />
       </Routes>
     </Router>
   );

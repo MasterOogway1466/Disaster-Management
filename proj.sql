@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS Disaster_Management;
+Use Disaster_Management;
+
 -- Admin Table
 CREATE TABLE Admin (
     Admin_ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -5,9 +8,7 @@ CREATE TABLE Admin (
     Last_name VARCHAR(50),
     email VARCHAR(100) UNIQUE NOT NULL,
     phone_number VARCHAR(15),
-    Apps_approved INT DEFAULT 0,
-    Apps_rejected INT DEFAULT 0,
-    Apps_pending INT DEFAULT 0
+    password VARCHAR(255) NOT NULL,
 );
 
 -- User Table
@@ -22,14 +23,6 @@ CREATE TABLE User (
     DOB DATE
 );
 
--- Application Table
-CREATE TABLE Application (
-    Application_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Date DATE,
-    Status ENUM('approved', 'rejected', 'pending') DEFAULT 'pending',
-    U_ID INT,
-    Admin_ID INT
-);
 
 -- Volunteer Table
 CREATE TABLE Volunteer (
@@ -41,7 +34,6 @@ CREATE TABLE Volunteer (
     U_ID INT,
     Disaster_ID INT,
     History_ID INT,
-    Approved_by INT
 );
 
 -- Disaster Table
@@ -57,17 +49,10 @@ CREATE TABLE Disaster (
     History_ID INT
 );
 
--- Request Table
-CREATE TABLE Request (
-    ID INT PRIMARY KEY AUTO_INCREMENT,
-    Status ENUM('open', 'closed', 'pending') DEFAULT 'pending',
-    Date DATE,
-    Disaster_ID INT
-);
-
 -- Training Session Table
 CREATE TABLE Training_Session (
     session_ID INT PRIMARY KEY AUTO_INCREMENT,
+    name TEXT
     Date DATE,
     Validity INT,
     Conducted_by INT
@@ -92,10 +77,6 @@ CREATE TABLE History (
 );
 
 
--- Application Table Foreign Keys
-ALTER TABLE Application
-    ADD CONSTRAINT fk_application_user FOREIGN KEY (U_ID) REFERENCES User(User_ID),
-    ADD CONSTRAINT fk_application_admin FOREIGN KEY (Admin_ID) REFERENCES Admin(Admin_ID);
 
 -- Volunteer Table Foreign Keys
 ALTER TABLE Volunteer
@@ -106,12 +87,9 @@ ALTER TABLE Volunteer
 
 -- Disaster Table Foreign Keys
 ALTER TABLE Disaster
-    ADD CONSTRAINT fk_disaster_request FOREIGN KEY (Request_ID) REFERENCES Request(ID),
     ADD CONSTRAINT fk_disaster_history FOREIGN KEY (History_ID) REFERENCES History(History_ID);
 
--- Request Table Foreign Key
-ALTER TABLE Request
-    ADD CONSTRAINT fk_request_disaster FOREIGN KEY (Disaster_ID) REFERENCES Disaster(Disaster_ID);
+
 
 -- Training_Session Table Foreign Key
 ALTER TABLE Training_Session
