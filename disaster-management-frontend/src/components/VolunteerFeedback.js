@@ -6,13 +6,14 @@ const VolunteerFeedback = () => {
   const [volunteers, setVolunteers] = useState([]);
   const [feedback, setFeedback] = useState({});
   const [message, setMessage] = useState('');
+  const isAdmin = !!localStorage.getItem('adminToken');
 
   useEffect(() => {
     const fetchVolunteers = async () => {
       try {
-        const token = localStorage.getItem('adminToken'); // Ensure admin is logged in
+        const token = localStorage.getItem('adminToken');
         const response = await axios.get('/api/volunteers/list', {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
         setVolunteers(response.data);
       } catch (error) {
@@ -26,7 +27,6 @@ const VolunteerFeedback = () => {
   const handleFeedbackChange = (volunteerId, disasterId, value) => {
     setFeedback({ ...feedback, [`${volunteerId}-${disasterId}`]: value });
   };
-  const isAdmin = !!localStorage.getItem('adminToken'); 
 
   const submitFeedback = async (volunteerId, disasterId) => {
     const feedbackText = feedback[`${volunteerId}-${disasterId}`];
@@ -40,7 +40,7 @@ const VolunteerFeedback = () => {
       await axios.post(
         '/api/history/add-feedback',
         { Volunteer_ID: volunteerId, Disaster_ID: disasterId, Feedback: feedbackText },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       setMessage('Feedback submitted successfully');
     } catch (error) {
@@ -52,7 +52,7 @@ const VolunteerFeedback = () => {
     <div>
       <header>
         <nav className="nav-links">
-         <ul>
+          <ul>
             <li><Link to="/">Home</Link></li>
             {isAdmin && (<li><Link to="/volunteers">Volunteers</Link></li>)}
             <li><Link to="/disasters">Disasters</Link></li>
@@ -62,14 +62,14 @@ const VolunteerFeedback = () => {
           </ul>
         </nav>
         <nav className="Logout">
-        {!isAdmin && (<b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>)}
-          <b><Link to="/logout" className='logout-link'>Logout</Link></b>
+          {!isAdmin && (<b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>)}
+          <b><Link to="/logout" className="logout-link">Logout</Link></b>
         </nav>
       </header>
 
       <div className="container" style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
-      <h2>Volunteer Feedback</h2>
-      {message && <p>{message}</p>}
+        <h2>Volunteer Feedback</h2>
+        {message && <p>{message}</p>}
 
       <table border="1" style={{ width: '100%', textAlign: 'left' }}>
         <thead>
