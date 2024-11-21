@@ -10,7 +10,17 @@ const TrainingSession = sequelize.define('Training_Session', {
   Conducted_by: { type: DataTypes.INTEGER, references: { model: Volunteer, key: 'Volunteer_ID' }}
 });
 
-TrainingSession.belongsTo(Volunteer, { as: 'ConductedByVolunteer', foreignKey: 'Conducted_by' });
+// Define association with cascading delete
+TrainingSession.belongsTo(Volunteer, {
+  as: 'ConductedByVolunteer',
+  foreignKey: 'Conducted_by',
+  onDelete: 'CASCADE'
+});
+
+Volunteer.hasMany(TrainingSession, {
+  foreignKey: 'Conducted_by',
+  onDelete: 'CASCADE'
+});
 
 
 module.exports = TrainingSession;
