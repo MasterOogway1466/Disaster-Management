@@ -108,6 +108,11 @@ const VolunteerFeedback = () => {
         </tbody>
       </table>
     </div>
+    
+    <footer>
+        <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
+    </footer>
+    
     </div>
   );
 };

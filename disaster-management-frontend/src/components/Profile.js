@@ -136,6 +136,11 @@ const Profile = () => {
         )}
         <button style={styles.backButton} onClick={() => navigate('/')}>Back to Home</button>
       </div>
+      
+    <footer>
+        <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
+    </footer>
+    
     </div>
   );
 };
