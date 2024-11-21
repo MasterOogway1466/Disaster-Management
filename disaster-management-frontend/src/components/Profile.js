@@ -174,29 +174,31 @@ const Profile = () => {
 
       </div>
       
-      <div className='container' style={{ marginTop:"0px"}}>
+      <div className='container' style={{ backgroundColor:"#f8f9fa",padding: '8px', marginTop:"0px", cursor: 'pointer' , width:'40%'}}>
+      <center>
       {isVolunteer && (
           <div style={styles.historySection}>
-            <h2>Volunteer History</h2>
+            <h2>History</h2>
+            <center>
             {volunteerHistory.length > 0 ? (
-              <table style={styles.table}>
+              <table style={{ borderCollapse: 'collapse', marginBottom:"5px" }}>
                 <thead>
                   <tr>
-                    <th>Disaster Name</th>
-                    <th>Location</th>
-                    <th>Type</th>
-                    <th>Severity</th>
-                    <th>Feedback</th>
+                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Disaster Name</th>
+                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Location</th>
+                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Type</th>
+                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Severity</th>
+                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Feedback</th>
                   </tr>
                 </thead>
                 <tbody>
                   {volunteerHistory.map((record) => (
                     <tr key={record.History_ID}>
-                      <td>{record.Disaster_Name || 'N/A'}</td>
-                      <td>{record.Disaster_Location || 'N/A'}</td>
-                      <td>{record.Disaster_Type || 'N/A'}</td>
-                      <td>{record.Disaster_Severity || 'N/A'}</td>
-                      <td>{record.Feedback || 'No feedback available'}</td>
+                      <td style={{ border: '1px solid #ddd', padding: '8px' }}>{record.Disaster_Name || 'N/A'}</td>
+                      <td style={{ border: '1px solid #ddd', padding: '8px' }}>{record.Disaster_Location || 'N/A'}</td>
+                      <td style={{ border: '1px solid #ddd', padding: '8px' }}>{record.Disaster_Type || 'N/A'}</td>
+                      <td style={{ border: '1px solid #ddd', padding: '8px' }}>{record.Disaster_Severity || 'N/A'}</td>
+                      <td style={{ border: '1px solid #ddd', padding: '8px' }}>{record.Feedback || 'No feedback available'}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -204,8 +206,10 @@ const Profile = () => {
             ) : (
               <p>No history available</p>
             )}
+            </center>
           </div>
         )}
+      </center>
       </div>
       <footer>
         <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
@@ -242,7 +246,7 @@ const styles = {
   table: {
     width: '100%',
     borderCollapse: 'collapse',
-    marginTop: '20px',
+    // marginTop: '20px',
   },
   editButton: {
     padding: '8px 10px',

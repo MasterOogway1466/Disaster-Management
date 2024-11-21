@@ -68,7 +68,7 @@ const VolunteerFeedback = () => {
         </nav>
       </header>
 
-      <div className="container" style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
+      <div className="container"  style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
         <h2>Volunteer Feedback</h2>
         {message && <p>{message}</p>}
 
