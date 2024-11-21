@@ -1,5 +1,5 @@
 # Disaster-Management
-A website meant to keep track of vital resources/operations to help improve efficiency of managing disasters
+A website meant to keep track of vital resources/operations to help improve efficiency of managing Disasters and Volunteers.
 
 ## Features
 User Registration and Login
