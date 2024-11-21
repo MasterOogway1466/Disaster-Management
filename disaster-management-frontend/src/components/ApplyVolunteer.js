@@ -65,6 +65,7 @@ const ApplyVolunteer = () => {
             <li><Link to="/training">Training</Link></li>
             {!isAdmin && (<li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>)}
             {isAdmin && (<li><Link to="/volunteer-feedback">Volunteer feedback</Link></li>)}
+            {isAdmin && (<li><Link to="/get-volunteer-history">Get Volunteer History</Link></li>)}
           </ul>
         </nav>
         <nav className="Logout">
@@ -91,7 +92,7 @@ const ApplyVolunteer = () => {
       </div>
 
       <footer>
-        <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
+        <p>© 2024 NGO Disaster Management System.</p>
       </footer>
     </div>
   );

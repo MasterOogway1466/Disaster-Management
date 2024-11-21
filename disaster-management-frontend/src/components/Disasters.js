@@ -66,6 +66,7 @@ const Disasters = () => {
             <li><Link to="/training">Training</Link></li>
             {!isAdmin && (<li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>)}
             {isAdmin && (<li><Link to="/volunteer-feedback">Volunteer feedback</Link></li>)}
+            {isAdmin && (<li><Link to="/get-volunteer-history">Get Volunteer History</Link></li>)}
           </ul>
         </nav>
         <nav className="Logout">
@@ -86,7 +87,7 @@ const Disasters = () => {
         <th style={{ border: '1px solid #ddd', padding: '8px' }}>Location</th>
         <th style={{ border: '1px solid #ddd', padding: '8px' }}>Type</th>
         <th style={{ border: '1px solid #ddd', padding: '8px' }}>Severity</th>
-        {!isAdmin && <th style={{ border: '1px solid #ddd', padding: '8px' }}>Action</th>}
+        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Action</th>
       </tr>
     </thead>
   )}
@@ -101,6 +102,11 @@ const Disasters = () => {
             {!isAdmin && (
               <td style={{ border: '1px solid #ddd', padding: '8px' }}>
                 <button onClick={() => handleApply(disaster.Disaster_ID)}>Apply to Volunteer</button>
+              </td>
+            )}
+            {isAdmin && (
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                <button style={{ backgroundColor:"rgb(208, 65, 65)" }} onClick={() => handleApply(disaster.Disaster_ID)}>Delete</button>
               </td>
             )}
           </tr>
@@ -119,7 +125,7 @@ const Disasters = () => {
       {localStorage.getItem('adminToken') && <DisasterAdd />}
     </div>
     <footer>
-        <p>© 2024 NGO Disaster Management System. All rights reserved.</p>
+        <p>© 2024 NGO Disaster Management System.</p>
       </footer>
     </div>
   );
