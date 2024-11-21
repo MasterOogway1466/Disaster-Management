@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const GetVolunteerHistory = () => {
     const [volunteerId, setVolunteerId] = useState('');
     const [history, setHistory] = useState([]);
     const [message, setMessage] = useState('');
+    const isAdmin = !!localStorage.getItem('adminToken');
 
     const fetchHistory = async () => {
         try {
@@ -27,22 +29,41 @@ const GetVolunteerHistory = () => {
     };
 
     return (
-        <div className="container" style={{ marginTop: '20px', textAlign: 'center' }}>
+        <div>
+        <header>
+        <nav className="nav-links">
+         <ul>
+            <li><Link to="/">Home</Link></li>
+            {isAdmin && (<li><Link to="/volunteers">Volunteers</Link></li>)}
+            <li><Link to="/disasters">Disasters</Link></li>
+            <li><Link to="/training">Training</Link></li>
+            {!isAdmin && (<li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>)}
+            {isAdmin && (<li><Link to="/volunteer-feedback">Volunteer feedback</Link></li>)}
+            {isAdmin && (<li><Link to="/get-volunteer-history">Get Volunteer History</Link></li>)}
+          </ul>
+        </nav>
+        <nav className="Logout">
+          {!isAdmin && (<b><Link to="/profile" style={{ color: 'white', marginRight: '15px' }}>Profile</Link></b>)}
+          <b><Link to="/logout" className='logout-link'>Logout</Link></b>
+        </nav>
+      </header>
+
+        <div className="container" style={{ width: '70%', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}>
             <h2>Get Volunteer History</h2>
             <input
                 type="text"
                 value={volunteerId}
                 onChange={(e) => setVolunteerId(e.target.value)}
                 placeholder="Enter Volunteer ID"
-                style={{ padding: '8px', marginRight: '10px' }}
+                style={{ padding: '8px', width:'60%'}}
             />
-            <button onClick={fetchHistory} style={{ padding: '8px 16px', cursor: 'pointer' }}>
+            <button onClick={fetchHistory} style={{ padding: '8px', marginTop:"5px", cursor: 'pointer' , width:'60%'}}>
                 Get History
             </button>
             {message && <p>{message}</p>}
 
             {history.length > 0 && (
-                <table border="1" style={{ marginTop: '20px', width: '90%', marginLeft: 'auto', marginRight: 'auto' }}>
+                <table border="1" style={{ marginTop: '20px', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
                     <thead>
                         <tr>
                             <th>History ID</th>
@@ -69,6 +90,12 @@ const GetVolunteerHistory = () => {
                     </tbody>
                 </table>
             )}
+        </div>
+
+        <footer>
+        <p>© 2024 NGO Disaster Management System.</p>
+        </footer>
+
         </div>
     );
 };

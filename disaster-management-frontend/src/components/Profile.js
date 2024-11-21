@@ -17,6 +17,7 @@ const Profile = () => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
   const isAdmin = !!localStorage.getItem('adminToken');
+  
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -94,6 +95,7 @@ const Profile = () => {
             <li><Link to="/training">Training</Link></li>
             {!isAdmin && (<li><Link to="/apply-volunteer">Apply as Volunteer</Link></li>)}
             {isAdmin && (<li><Link to="/volunteer-feedback">Volunteer feedback</Link></li>)}
+            {isAdmin && (<li><Link to="/get-volunteer-history">Get Volunteer History</Link></li>)}
           </ul>
         </nav>
         <nav className="Logout">
@@ -103,9 +105,9 @@ const Profile = () => {
       </header>
       
       <div style={styles.container}>
-        <h2 style={styles.heading}>User Profile</h2>
         {userData ? (
           <div style={styles.profileCard}>
+            <center><h2 style={styles.heading}>Profile</h2></center>
           {!isEditing ? (
             <>
               <p><strong>First Name:</strong> {userData.first_name}</p>
@@ -114,7 +116,7 @@ const Profile = () => {
               <p><strong>Email:</strong> {userData.email}</p>
               <p><strong>Phone Number:</strong> {userData.phone_number}</p>
               <p><strong>Date of Birth:</strong> {formatDate(userData.dob)}</p>
-              <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ display: 'flex', gap: '5px' }}>
                 <button style={styles.editButton} onClick={handleEditClick}>Edit Profile</button>
                 <button style={styles.deleteButton} onClick={deleteAccount}>Delete Account</button>
               </div>
@@ -134,9 +136,43 @@ const Profile = () => {
         ) : (
           <p>Loading profile...</p>
         )}
-        <button style={styles.backButton} onClick={() => navigate('/')}>Back to Home</button>
+        {/* <button style={styles.backButton} onClick={() => navigate('/')}>Back to Home</button> */}
       </div>
-      
+
+
+      <div className='container' style={{ marginTop: "0px"}}>
+        <h2>History / Feedback</h2>
+      {/* {history.length > 0 && (
+                <table border="1" style={{ marginTop: '20px', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
+                    <thead>
+                        <tr>
+                            <th>History ID</th>
+                            <th>Feedback</th>
+                            <th>Volunteer Name</th>
+                            <th>Disaster Name</th>
+                            <th>Disaster Location</th>
+                            <th>Disaster Type</th>
+                            <th>Disaster Severity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {history.map((record) => (
+                            <tr key={record.History_ID}>
+                                <td>{record.History_ID}</td>
+                                <td>{record.Feedback}</td>
+                                <td>{`${record.Volunteer_FirstName} ${record.Volunteer_LastName}`}</td>
+                                <td>{record.Disaster_Name}</td>
+                                <td>{record.Disaster_Location}</td>
+                                <td>{record.Disaster_Type}</td>
+                                <td>{record.Disaster_Severity}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )} */}
+      </div>
+
+
     <footer>
         <p>© 2024 NGO Disaster Management System.</p>
     </footer>
@@ -167,7 +203,7 @@ const styles = {
     marginBottom: '20px',
   },
   editButton: {
-    padding: '10px 20px',
+    padding: '8px 10px',
     fontSize: '16px',
     marginRight: '10px',
     color: 'white',
@@ -176,7 +212,7 @@ const styles = {
     cursor: 'pointer',
   },
   deleteButton: {
-    padding: '10px 20px',
+    padding: '8px 10px',
     fontSize: '16px',
     backgroundColor: 'red',
     color: 'white',
